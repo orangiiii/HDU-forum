@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDU论坛 - 首页</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>HDU论坛</h1>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="category.html">分类</a>
+                <a href="#" id="userLink">登录</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <aside class="sidebar">
+            <h3>分类</h3>
+            <ul id="categoryList" class="category-list">
+                <!-- 动态加载分类 -->
+            </ul>
+        </aside>
+
+        <main class="content">
+            <div class="toolbar">
+                <button id="createPostBtn" class="btn btn-primary">发布帖子</button>
+            </div>
+            
+            <div id="postList" class="post-list">
+                <!-- 动态加载帖子列表 -->
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

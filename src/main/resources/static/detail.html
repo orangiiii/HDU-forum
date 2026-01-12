@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - HDU论坛</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>HDU论坛</h1>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="category.html">分类</a>
+                <a href="#" id="userLink">登录</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <main class="content">
+            <div id="postDetail" class="post-detail">
+                <!-- 动态加载帖子详情 -->
+            </div>
+
+            <div class="comment-section">
+                <h3>评论</h3>
+                <div class="comment-form">
+                    <textarea id="commentContent" placeholder="写下你的评论..." rows="3"></textarea>
+                    <button id="submitComment" class="btn btn-primary">发表评论</button>
+                </div>
+                <div id="commentList" class="comment-list">
+                    <!-- 动态加载评论列表 -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/detail.js"></script>
+</body>
+</html>
