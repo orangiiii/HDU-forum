@@ -10,9 +10,7 @@ public class ForumApplication {
     public static void main(String[] args) {
         SpringApplication.run(ForumApplication.class, args);
         System.out.println("====================================");
-        System.out.println("HDU论坛系统启动成功！");
-        System.out.println("访问地址: http://localhost:8080");
-        System.out.println("API接口: http://localhost:8080/api");
+        System.out.println("启动成功！");
         System.out.println("====================================");
     }
 }

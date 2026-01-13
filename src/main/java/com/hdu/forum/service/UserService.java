@@ -64,7 +64,7 @@ public class UserService {
         String token = JwtUtil.generateToken(user.getId(), user.getUsername());
         
         // 将token存入Redis，设置过期时间为7天
-        redisTemplate.opsForValue().set("token:" + token, user, 7, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set("token:" + token, user.getId(), 7, TimeUnit.DAYS);
         
         return token;
     }
@@ -73,7 +73,23 @@ public class UserService {
      * 根据token获取用户信息
      */
     public User getUserByToken(String token) {
-        return (User) redisTemplate.opsForValue().get("token:" + token);
+        Object userId = redisTemplate.opsForValue().get("token:" + token);
+        if (userId == null) {
+            return null;
+        }
+        Long id = Long.valueOf(userId.toString());
+        return getUserById(id);
+    }
+    
+    /**
+     * 根据用户名获取用户
+     */
+    public User getUserByUsername(String username) {
+        User user = userMapper.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        return user;
     }
     
     /**

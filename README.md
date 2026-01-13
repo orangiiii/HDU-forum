@@ -155,35 +155,35 @@ HDU-forum/
 ## API 接口
 
 ### 用户相关
-- POST `/api/user/register` - 用户注册
-- POST `/api/user/login` - 用户登录
-- GET `/api/user/info` - 获取当前用户信息
-- GET `/api/user/{id}` - 获取用户信息
-- PUT `/api/user/update` - 更新用户信息
+- POST `/user/register` - 用户注册
+- POST `/user/login` - 用户登录
+- GET `/user/info` - 获取当前用户信息
+- GET `/user/{id}` - 获取用户信息
+- PUT `/user/update` - 更新用户信息
 
 ### 分类相关
-- GET `/api/category/list` - 获取所有分类
-- GET `/api/category/{id}` - 获取分类详情
-- POST `/api/category/create` - 创建分类（管理员）
-- PUT `/api/category/update` - 更新分类（管理员）
-- DELETE `/api/category/{id}` - 删除分类（管理员）
+- GET `/category/list` - 获取所有分类
+- GET `/category/{id}` - 获取分类详情
+- POST `/category/create` - 创建分类（管理员）
+- PUT `/category/update` - 更新分类（管理员）
+- DELETE `/category/{id}` - 删除分类（管理员）
 
 ### 帖子相关
-- GET `/api/post/list` - 获取所有帖子
-- GET `/api/post/{id}` - 获取帖子详情
-- GET `/api/post/category/{categoryId}` - 获取分类下的帖子
-- GET `/api/post/user/{userId}` - 获取用户的帖子
-- POST `/api/post/create` - 创建帖子
-- PUT `/api/post/update` - 更新帖子
-- DELETE `/api/post/{id}` - 删除帖子
-- POST `/api/post/like/{id}` - 点赞帖子
+- GET `/post/list` - 获取所有帖子
+- GET `/post/{id}` - 获取帖子详情
+- GET `/post/category/{categoryId}` - 获取分类下的帖子
+- GET `/post/user/{userId}` - 获取用户的帖子
+- POST `/post/create` - 创建帖子
+- PUT `/post/update` - 更新帖子
+- DELETE `/post/{id}` - 删除帖子
+- POST `/post/like/{id}` - 点赞帖子
 
 ### 评论相关
-- GET `/api/comment/post/{postId}` - 获取帖子的评论
-- GET `/api/comment/user/{userId}` - 获取用户的评论
-- POST `/api/comment/create` - 创建评论
-- DELETE `/api/comment/{id}` - 删除评论
-- POST `/api/comment/like/{id}` - 点赞评论
+- GET `/comment/post/{postId}` - 获取帖子的评论
+- GET `/comment/user/{userId}` - 获取用户的评论
+- POST `/comment/create` - 创建评论
+- DELETE `/comment/{id}` - 删除评论
+- POST `/comment/like/{id}` - 点赞评论
 
 ## 内网部署
 

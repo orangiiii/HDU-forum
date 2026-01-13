@@ -38,6 +38,13 @@ spring:
       enabled: true
       port: 35729
 
+  # Jackson配置
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
 # MyBatis配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -49,6 +56,7 @@ mybatis:
 # 日志配置
 logging:
   level:
-    com.hdu.forum: debug
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
+    # com.hdu.forum: debug
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"

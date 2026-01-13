@@ -31,6 +31,25 @@ public class UserController {
             );
             return Result.success(user);
         } catch (Exception e) {
+            e.printStackTrace(); // 打印完整堆栈
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    /**
+     * 测试接口 - 直接返回User对象
+     */
+    @GetMapping("/test/{username}")
+    public Result<User> testUser(@PathVariable String username) {
+        try {
+            User user = userService.getUserByUsername(username);
+            System.out.println("===== 测试用户序列化 =====");
+            System.out.println("用户: " + user);
+            System.out.println("创建时间类型: " + user.getCreateTime().getClass().getName());
+            System.out.println("========================");
+            return Result.success(user);
+        } catch (Exception e) {
+            e.printStackTrace();
             return Result.error(e.getMessage());
         }
     }
@@ -44,12 +63,20 @@ public class UserController {
             String token = userService.login(request.getUsername(), request.getPassword());
             User user = userService.getUserByToken(token);
             
+            // 添加日志输出
+            System.out.println("===== 登录成功 =====");
+            System.out.println("用户名: " + user.getUsername());
+            System.out.println("创建时间: " + user.getCreateTime());
+            System.out.println("更新时间: " + user.getUpdateTime());
+            System.out.println("==================");
+            
             Map<String, Object> data = new HashMap<>();
             data.put("token", token);
             data.put("user", user);
             
             return Result.success(data);
         } catch (Exception e) {
+            e.printStackTrace(); // 打印完整堆栈
             return Result.error(e.getMessage());
         }
     }
@@ -110,5 +137,9 @@ public class UserController {
         } catch (Exception e) {
             return Result.error(e.getMessage());
         }
+    }
+    @GetMapping("/ping")
+    public String ping() {
+        return "pong";
     }
 }
