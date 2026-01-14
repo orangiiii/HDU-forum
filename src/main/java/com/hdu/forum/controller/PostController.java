@@ -100,6 +100,64 @@ public class PostController {
     }
     
     /**
+     * 发布帖子（新界面，支持更多字段）
+     */
+    @PostMapping("/publish")
+    public Result<Post> publishPost(@RequestHeader("Authorization") String token,
+                                    @RequestBody Post post) {
+        try {
+            User user = userService.getUserByToken(token);
+            if (user == null) {
+                return Result.error(401, "未登录或登录已过期");
+            }
+            
+            Post newPost = postService.publishPost(user.getId(), post);
+            return Result.success(newPost);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    /**
+     * 自动保存草稿
+     */
+    @PostMapping("/saveDraft")
+    public Result<Post> saveDraft(@RequestHeader("Authorization") String token,
+                                  @RequestBody Post post) {
+        try {
+            User user = userService.getUserByToken(token);
+            if (user == null) {
+                return Result.error(401, "未登录或登录已过期");
+            }
+            
+            Post draft = postService.saveDraft(user.getId(), post);
+            return Result.success(draft);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    /**
+     * 获取当前用户最近的草稿
+     */
+    @GetMapping("/draft/latest")
+    public Result<Post> getLatestDraft(@RequestHeader("Authorization") String token) {
+        try {
+            User user = userService.getUserByToken(token);
+            if (user == null) {
+                return Result.error(401, "未登录或登录已过期");
+            }
+            
+            Post draft = postService.getLatestDraft(user.getId());
+            return Result.success(draft);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    /**
      * 更新帖子
      */
     @PutMapping("/update")

@@ -1,6 +1,5 @@
 package com.hdu.forum.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -11,17 +10,17 @@ public class Post {
     private Long categoryId;
     private String title;
     private String content;
+    private String imageUrl; // 附图URL
+    private Integer gradYear; // 届数，如2024
     private Integer viewCount;
     private Integer likeCount;
     private Integer commentCount;
     private Integer isTop; // 0:否 1:是
     private Integer status; // 0:草稿 1:已发布 2:已删除
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-    
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+    private LocalDateTime publishTime; // 延迟发布时间
     
     // 关联查询字段
     private String username;

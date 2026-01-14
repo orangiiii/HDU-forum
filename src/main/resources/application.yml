@@ -42,8 +42,11 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
 
 # MyBatis配置
 mybatis:
@@ -57,6 +60,9 @@ mybatis:
 logging:
   level:
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    com.fasterxml.jackson: DEBUG
     # com.hdu.forum: debug
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"

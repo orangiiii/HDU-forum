@@ -65,8 +65,97 @@ public class PostService {
         post.setStatus(1); // 已发布
         post.setCreateTime(LocalDateTime.now());
         post.setUpdateTime(LocalDateTime.now());
+        post.setPublishTime(LocalDateTime.now());
         
         postMapper.insert(post);
+        return post;
+    }
+    
+    /**
+     * 保存草稿：有id就更新，没有id就新建
+     */
+    public Post saveDraft(Long userId, Post postData) {
+        Post post;
+        if (postData.getId() != null) {
+            post = postMapper.findById(postData.getId());
+            if (post == null || !post.getUserId().equals(userId) || post.getStatus() != 0) {
+                throw new RuntimeException("草稿不存在或无权限");
+            }
+            post.setCategoryId(postData.getCategoryId());
+            post.setTitle(postData.getTitle());
+            post.setContent(postData.getContent());
+            post.setImageUrl(postData.getImageUrl());
+            post.setGradYear(postData.getGradYear());
+            post.setPublishTime(postData.getPublishTime());
+            post.setUpdateTime(LocalDateTime.now());
+            postMapper.update(post);
+        } else {
+            post = new Post();
+            post.setUserId(userId);
+            post.setCategoryId(postData.getCategoryId());
+            post.setTitle(postData.getTitle());
+            post.setContent(postData.getContent());
+            post.setImageUrl(postData.getImageUrl());
+            post.setGradYear(postData.getGradYear());
+            post.setPublishTime(postData.getPublishTime());
+            post.setViewCount(0);
+            post.setLikeCount(0);
+            post.setCommentCount(0);
+            post.setIsTop(0);
+            post.setStatus(0); // 草稿
+            post.setCreateTime(LocalDateTime.now());
+            post.setUpdateTime(LocalDateTime.now());
+            postMapper.insert(post);
+        }
+        return post;
+    }
+    
+    /**
+     * 获取当前用户最近的草稿
+     */
+    public Post getLatestDraft(Long userId) {
+        return postMapper.findLatestDraftByUserId(userId);
+    }
+    
+    /**
+     * 发布帖子（从草稿变为已发布）
+     */
+    public Post publishPost(Long userId, Post postData) {
+        Post post;
+        if (postData.getId() != null) {
+            // 更新草稿并发布
+            post = postMapper.findById(postData.getId());
+            if (post == null || !post.getUserId().equals(userId)) {
+                throw new RuntimeException("帖子不存在或无权限");
+            }
+            post.setCategoryId(postData.getCategoryId());
+            post.setTitle(postData.getTitle());
+            post.setContent(postData.getContent());
+            post.setImageUrl(postData.getImageUrl());
+            post.setGradYear(postData.getGradYear());
+            post.setPublishTime(postData.getPublishTime() != null ? postData.getPublishTime() : LocalDateTime.now());
+            post.setStatus(1); // 已发布
+            post.setUpdateTime(LocalDateTime.now());
+            postMapper.update(post);
+        } else {
+            // 新建并发布
+            post = new Post();
+            post.setUserId(userId);
+            post.setCategoryId(postData.getCategoryId());
+            post.setTitle(postData.getTitle());
+            post.setContent(postData.getContent());
+            post.setImageUrl(postData.getImageUrl());
+            post.setGradYear(postData.getGradYear());
+            post.setPublishTime(postData.getPublishTime() != null ? postData.getPublishTime() : LocalDateTime.now());
+            post.setViewCount(0);
+            post.setLikeCount(0);
+            post.setCommentCount(0);
+            post.setIsTop(0);
+            post.setStatus(1); // 已发布
+            post.setCreateTime(LocalDateTime.now());
+            post.setUpdateTime(LocalDateTime.now());
+            postMapper.insert(post);
+        }
         return post;
     }
     

@@ -66,25 +66,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             goToLogin();
             return;
         }
-        // 简单实现：弹窗输入
-        const categoryId = prompt('请输入分类ID (1-5):');
-        const title = prompt('请输入标题:');
-        const content = prompt('请输入内容:');
-        
-        if (categoryId && title && content) {
-            fetchPost(API.POST_CREATE, {
-                categoryId: parseInt(categoryId),
-                title: title,
-                content: content
-            }).then(result => {
-                if (result.code === 200) {
-                    alert('发布成功');
-                    location.reload();
-                } else {
-                    alert(result.message);
-                }
-            });
-        }
+        // 跳转到发帖页面
+        window.location.href = 'create_post.html';
     };
     
     // 加载数据
