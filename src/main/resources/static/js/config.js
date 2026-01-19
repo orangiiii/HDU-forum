@@ -1,5 +1,5 @@
 // API配置
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'http://10.4.113.176:12138';
 
 const API = {
     // 用户相关
@@ -7,6 +7,8 @@ const API = {
     USER_LOGIN: `${API_BASE_URL}/user/login`,
     USER_INFO: `${API_BASE_URL}/user/info`,
     USER_UPDATE: `${API_BASE_URL}/user/update`,
+    USER_CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`,
+    USER_UPDATE_PROFILE: `${API_BASE_URL}/user/profile`,
     
     // 分类相关
     CATEGORY_LIST: `${API_BASE_URL}/category/list`,

@@ -40,9 +40,15 @@ async function loadDraft() {
         }
         
         showHint('已加载草稿', 'info');
+    } else {
+        // 没有草稿，使用用户默认届数
+        const user = getUser();
+        if (user && user.defaultGradYear) {
+            document.getElementById('gradYear').value = user.defaultGradYear;
+        }
     }
     
-    // 加载上次的届数选择
+    // 加载上次的届数选择（优先级低于草稿和用户设置）
     lastGradYear = localStorage.getItem('lastGradYear');
     if (lastGradYear && !document.getElementById('gradYear').value) {
         document.getElementById('gradYear').value = lastGradYear;
@@ -167,8 +173,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const user = getUser();
     const userLink = document.getElementById('userLink');
     if (user) {
-        userLink.textContent = user.username;
-        userLink.onclick = () => logout();
+        userLink.innerHTML = `<a href="profile.html" style="margin-right: 10px;">${user.username}</a> | <a href="#" onclick="logout(); return false;">退出</a>`;
+        userLink.href = '#';
+    } else {
+        userLink.textContent = '登录';
+        userLink.href = 'login.html';
     }
     
     // 加载分类

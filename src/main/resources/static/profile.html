@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息 - HDU论坛</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+        }
+        .profile-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .profile-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .info-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .info-item label {
+            display: block;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .info-item .value {
+            font-size: 16px;
+            color: #333;
+        }
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>HDU论坛</h1>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="category.html">分类</a>
+                <a href="#" id="userLink">个人信息</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <!-- 基本信息 -->
+        <div class="profile-section">
+            <h2>基本信息</h2>
+            <div class="info-item">
+                <label>用户名</label>
+                <div class="value" id="username"></div>
+            </div>
+            <div class="info-item">
+                <label>注册时间</label>
+                <div class="value" id="createTime"></div>
+            </div>
+        </div>
+
+        <!-- 个人设置 -->
+        <div class="profile-section">
+            <h2>个人设置</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="defaultGradYear">默认届数</label>
+                    <input type="number" id="defaultGradYear" name="defaultGradYear" 
+                           placeholder="例如: 2024" min="2000" max="2100">
+                    <small style="color: #666;">设置后，发帖时会自动填充该届数</small>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保存设置</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 修改密码 -->
+        <div class="profile-section">
+            <h2>修改密码</h2>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="oldPassword">原密码</label>
+                    <input type="password" id="oldPassword" name="oldPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">新密码</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">确认新密码</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">修改密码</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

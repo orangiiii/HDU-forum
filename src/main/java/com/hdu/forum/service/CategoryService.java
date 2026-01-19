@@ -26,6 +26,7 @@ public class CategoryService {
      */
     @SuppressWarnings("unchecked")
     public List<Category> getAllCategories() {
+        
         // 先从缓存获取
         List<Category> categories = (List<Category>) redisTemplate.opsForValue().get(CATEGORY_LIST_KEY);
         if (categories != null) {
@@ -34,6 +35,7 @@ public class CategoryService {
         
         // 缓存未命中，从数据库查询
         categories = categoryMapper.findAll();
+        System.out.println("Cache miss: fetched categories from database. getAllCategories");
         
         // 存入缓存，有效期1小时
         redisTemplate.opsForValue().set(CATEGORY_LIST_KEY, categories, 1, TimeUnit.HOURS);

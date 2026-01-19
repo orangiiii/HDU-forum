@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `username` VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名',
     `password` VARCHAR(100) NOT NULL COMMENT '密码(MD5加密)',
     `avatar` VARCHAR(255) COMMENT '头像URL',
+    `default_grad_year` INT COMMENT '默认届数',
     `role` TINYINT DEFAULT 0 COMMENT '角色: 0-普通用户, 1-管理员',
     `status` TINYINT DEFAULT 1 COMMENT '状态: 0-禁用, 1-正常',
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

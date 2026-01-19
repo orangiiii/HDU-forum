@@ -106,4 +106,23 @@ public class UserService {
         user.setUpdateTime(LocalDateTime.now());
         userMapper.update(user);
     }
+    
+    /**
+     * 修改密码
+     */
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        User user = getUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        
+        // 验证旧密码
+        if (!user.getPassword().equals(DigestUtil.md5Hex(oldPassword))) {
+            throw new RuntimeException("原密码错误");
+        }
+        
+        // 更新密码
+        user.setPassword(DigestUtil.md5Hex(newPassword));
+        updateUser(user);
+    }
 }

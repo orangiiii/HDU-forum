@@ -1,8 +1,10 @@
 package com.hdu.forum.controller;
 
+import com.hdu.forum.dto.ChangePasswordRequest;
 import com.hdu.forum.dto.LoginRequest;
 import com.hdu.forum.dto.RegisterRequest;
 import com.hdu.forum.dto.Result;
+import com.hdu.forum.dto.UpdateProfileRequest;
 import com.hdu.forum.entity.User;
 import com.hdu.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +140,58 @@ public class UserController {
             return Result.error(e.getMessage());
         }
     }
+    
+    /**
+     * 修改密码
+     */
+    @PostMapping("/change-password")
+    public Result<String> changePassword(@RequestHeader("Authorization") String token,
+                                         @RequestBody ChangePasswordRequest request) {
+        try {
+            User currentUser = userService.getUserByToken(token);
+            if (currentUser == null) {
+                return Result.error(401, "未登录或登录已过期");
+            }
+            
+            userService.changePassword(currentUser.getId(), 
+                                      request.getOldPassword(), 
+                                      request.getNewPassword());
+            return Result.success("密码修改成功");
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+    
+    /**
+     * 更新个人信息
+     */
+    @PutMapping("/profile")
+    public Result<User> updateProfile(@RequestHeader("Authorization") String token,
+                                      @RequestBody UpdateProfileRequest request) {
+        try {
+            User currentUser = userService.getUserByToken(token);
+            if (currentUser == null) {
+                return Result.error(401, "未登录或登录已过期");
+            }
+            
+            // 更新字段
+            if (request.getAvatar() != null) {
+                currentUser.setAvatar(request.getAvatar());
+            }
+            if (request.getDefaultGradYear() != null) {
+                currentUser.setDefaultGradYear(request.getDefaultGradYear());
+            }
+            
+            userService.updateUser(currentUser);
+            
+            // 返回更新后的用户信息
+            currentUser.setPassword(null); // 隐藏密码
+            return Result.success(currentUser);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+    
     @GetMapping("/ping")
     public String ping() {
         return "pong";

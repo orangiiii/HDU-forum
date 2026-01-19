@@ -53,9 +53,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const user = getUser();
     const userLink = document.getElementById('userLink');
     if (user) {
-        // userLink.textContent = user.nickname;
-        userLink.onclick = () => logout();
+        userLink.innerHTML = `<a href="profile.html" style="margin-right: 10px;">${user.username}</a> | <a href="#" onclick="logout(); return false;">退出</a>`;
+        userLink.href = '#';
     } else {
+        userLink.textContent = '登录';
         userLink.href = 'login.html';
     }
     

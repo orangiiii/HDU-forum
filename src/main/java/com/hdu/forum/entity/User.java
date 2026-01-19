@@ -17,6 +17,7 @@ public class User implements Serializable{
     private String username;
     private String password;
     private String avatar;
+    private Integer defaultGradYear; // 默认届数
     private Integer role; // 0:普通用户 1:管理员
     private Integer status; // 0:禁用 1:正常
     
