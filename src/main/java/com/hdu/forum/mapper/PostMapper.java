@@ -14,7 +14,7 @@ public interface PostMapper {
             "WHERE p.id = #{id}")
     Post findById(Long id);
     
-    @Select("SELECT p.*, u.username, c.name as category_name FROM post p " +
+    @Select("SELECT p.*, u.username, c.name as category_name, p.image_url FROM post p " +
             "LEFT JOIN user u ON p.user_id = u.id " +
             "LEFT JOIN category c ON p.category_id = c.id " +
             "WHERE p.status = 1 ORDER BY p.is_top DESC, p.create_time DESC")

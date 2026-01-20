@@ -26,6 +26,7 @@ const API = {
     POST_UPDATE: `${API_BASE_URL}/post/update`,
     POST_DELETE: (id) => `${API_BASE_URL}/post/${id}`,
     POST_LIKE: (id) => `${API_BASE_URL}/post/like/${id}`,
+    POST_UPLOAD_IMAGE: `${API_BASE_URL}/post/upload`,
     
     // 评论相关
     COMMENT_BY_POST: (postId) => `${API_BASE_URL}/comment/post/${postId}`,

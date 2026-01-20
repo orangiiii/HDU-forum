@@ -16,6 +16,12 @@ async function loadPostDetail() {
     const result = await fetchGet(API.POST_DETAIL(currentPostId));
     if (result.code === 200) {
         const post = result.data;
+        const imageHtml = post.imageUrl ? `
+            <div class="post-image" style="margin: 20px 0;">
+                <img src="${post.imageUrl}" alt="帖子图片" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            </div>
+        ` : '';
+        
         document.getElementById('postDetail').innerHTML = `
             <h2>${post.title}</h2>
             <div class="post-meta">
@@ -26,6 +32,7 @@ async function loadPostDetail() {
                 <span>${formatTime(post.createTime)}</span>
             </div>
             <div class="post-content">${post.content}</div>
+            ${imageHtml}
             <div class="post-actions">
                 <button onclick="likePost()" class="btn">点赞</button>
             </div>

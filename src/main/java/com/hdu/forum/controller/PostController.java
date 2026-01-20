@@ -7,7 +7,11 @@ import com.hdu.forum.service.PostService;
 import com.hdu.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -229,6 +233,55 @@ public class PostController {
             return Result.success("点赞成功");
         } catch (Exception e) {
             return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 上传图片
+     */
+    @PostMapping("/upload")
+    public Result<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return Result.error("文件不能为空");
+            }
+            
+            // 检查文件类型
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                return Result.error("只能上传图片文件");
+            }
+            
+            // 检查文件大小（限制5MB）
+            if (file.getSize() > 5 * 1024 * 1024) {
+                return Result.error("图片大小不能超过5MB");
+            }
+            
+            // 创建上传目录
+            String uploadDir = "uploads/images/";
+            java.nio.file.Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            
+            // 生成唯一文件名
+            String originalFilename = file.getOriginalFilename();
+            String extension = "";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            }
+            String filename = System.currentTimeMillis() + "_" + Math.random() + extension;
+            
+            // 保存文件
+            java.nio.file.Path filePath = uploadPath.resolve(filename);
+            Files.copy(file.getInputStream(), filePath);
+            
+            // 返回访问URL
+            String fileUrl = "/uploads/images/" + filename;
+            return Result.success(fileUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("上传失败: " + e.getMessage());
         }
     }
 }

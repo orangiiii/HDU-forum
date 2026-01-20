@@ -28,8 +28,20 @@ async function loadDraft() {
         document.getElementById('categoryId').value = draft.categoryId || '';
         document.getElementById('title').value = draft.title || '';
         document.getElementById('content').value = draft.content || '';
-        document.getElementById('imageUrl').value = draft.imageUrl || '';
         document.getElementById('gradYear').value = draft.gradYear || '';
+        
+        // 加载图片
+        if (draft.imageUrl) {
+            document.getElementById('imageUrl').value = draft.imageUrl;
+            // 显示预览
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = `
+                <div style="position: relative; display: inline-block;">
+                    <img src="${draft.imageUrl}" alt="预览" class="image-preview" style="max-width: 300px; max-height: 200px; border-radius: 4px;">
+                    <button type="button" onclick="removeImage()" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 16px; line-height: 1;">×</button>
+                </div>
+            `;
+        }
         
         if (draft.publishTime) {
             // 转换为本地时间格式 yyyy-MM-ddTHH:mm
@@ -159,6 +171,86 @@ document.getElementById('saveDraftBtn').addEventListener('click', async () => {
     await saveDraft();
     alert('草稿已保存');
 });
+
+// 图片自动上传功能 - 监听文件选择事件
+document.getElementById('imageUpload').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    
+    if (!file) {
+        return;
+    }
+    
+    // 检查文件类型
+    if (!file.type.startsWith('image/')) {
+        alert('只能上传图片文件');
+        e.target.value = ''; // 清空选择
+        return;
+    }
+    
+    // 检查文件大小（5MB）
+    if (file.size > 5 * 1024 * 1024) {
+        alert('图片大小不能超过5MB');
+        e.target.value = ''; // 清空选择
+        return;
+    }
+    
+    // 显示上传中状态
+    const uploadProgress = document.getElementById('uploadProgress');
+    uploadProgress.style.display = 'block';
+    
+    try {
+        // 创建FormData
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        // 发送上传请求
+        const token = getToken();
+        const response = await fetch(API.POST_UPLOAD_IMAGE, {
+            method: 'POST',
+            headers: {
+                'Authorization': token
+            },
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.code === 200) {
+            // 保存图片URL
+            const imageUrl = API_BASE_URL + result.data;
+            document.getElementById('imageUrl').value = imageUrl;
+            
+            // 显示预览
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = `
+                <div style="position: relative; display: inline-block;">
+                    <img src="${imageUrl}" alt="预览" style="max-width: 300px; max-height: 200px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <button type="button" onclick="removeImage()" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 16px; line-height: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">×</button>
+                </div>
+            `;
+            
+            showHint('图片上传成功', 'success');
+            uploadProgress.style.display = 'none';
+        } else {
+            alert('上传失败：' + result.message);
+            uploadProgress.style.display = 'none';
+            e.target.value = ''; // 清空选择
+        }
+    } catch (error) {
+        console.error('上传错误:', error);
+        alert('上传失败：' + error.message);
+        uploadProgress.style.display = 'none';
+        e.target.value = ''; // 清空选择
+    }
+});
+
+// 删除图片
+function removeImage() {
+    document.getElementById('imageUrl').value = '';
+    document.getElementById('imagePreview').innerHTML = '';
+    document.getElementById('imageUpload').value = '';
+    showHint('已删除图片', 'info');
+}
 
 // 初始化
 document.addEventListener('DOMContentLoaded', async () => {
